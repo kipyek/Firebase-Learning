@@ -8,29 +8,34 @@ const Login = () => {
   const [number1, onChangeNumber1] = React.useState('');
 
   const handleLogin = () => {
-    signInWithEmailAndPassword(auth, number, number1)
-      .then((userCredential) => {
-        // Signed in 
-        const user = userCredential;
-        console.log("Login Success", user)
-        // ...
-      })
-      .catch((error) => {
-        const e = error.code;
-        if (e === "auth/wrong-password") {
-          alert("Wrong Password")
-        } else if (e === "auth/invalid-email") {
-          alert("Invalid Email")
-        } else if (e === "auth/user-not-found") {
-          alert("Email does not exist")
-        } else if (e === "auth/too-many-request") {
-          alert("Wait for 2 mins and try again")
-        } else {
-          alert("Check your details and try again")
-        }
 
-      });
+    if (auth.currentUser?.emailVerified === false) {
+      console.log("Verify your email first")
+    } else {
 
+      signInWithEmailAndPassword(auth, number, number1)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential;
+          console.log("Login Success", user)
+          // ...
+        })
+        .catch((error) => {
+          const e = error.code;
+          if (e === "auth/wrong-password") {
+            alert("Wrong Password")
+          } else if (e === "auth/invalid-email") {
+            alert("Invalid Email")
+          } else if (e === "auth/user-not-found") {
+            alert("Email does not exist")
+          } else if (e === "auth/too-many-request") {
+            alert("Wait for 2 mins and try again")
+          } else {
+            alert("Check your details and try again")
+          }
+
+        });
+    }
   }
   return (
     <View className='flex-1'>

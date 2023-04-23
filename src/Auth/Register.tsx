@@ -1,6 +1,6 @@
 import { View, Text, TextInput, KeyboardAvoidingView, Button, Alert } from 'react-native'
 import React from 'react'
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { setDoc, doc } from "firebase/firestore"
 import { auth, db } from '../../firebase';
 
@@ -26,6 +26,7 @@ const Register = () => {
         // Signed in 
         const user = userCredential.user;
         const email = user.email;
+        const data = auth.currentUser
         const uid = auth.currentUser?.uid;
 
         setDoc(doc(db, "users", `${uid}`), {
@@ -33,6 +34,7 @@ const Register = () => {
           phone: number2,
           location: number3
         })
+        sendEmailVerification(data)
         console.log("success", user)
       })
       .catch((error) => {
