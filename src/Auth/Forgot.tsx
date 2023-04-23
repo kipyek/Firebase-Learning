@@ -8,6 +8,9 @@ const Forgot = () => {
   const [number1, onChangeNumber1] = React.useState('');
 
   const handleReset = () => {
+    if (number !== number1) {
+      alert("passwords are not matching")
+    }
     const user = auth.currentUser;
     updatePassword(user, number).then(() => {
       console.log("password reset")
